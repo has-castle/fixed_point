@@ -7,10 +7,10 @@ LDFLAGS += -lm
 CPP ?= g++
 STD ?= c++11
 CPPFLAGS ?=
-CPPFLAGS += -Wall -Werror -O3 -g
+CPPFLAGS += -Wall -Werror -O3
 CPPFLAGS += -std=$(STD)
-CPPFLAGS += -Iinclude
-EXEC = fp_demo
+CPPFLAGS += -I../include
+EXEC = catch_test
 
 $(EXEC): $(obj)
 	$(CPP) $(CPPFLAGS) -o $@ $^ $(LDFLAGS)
@@ -36,19 +36,4 @@ rebuild: clean $(EXEC)
 
 .PHONY: run
 run: $(EXEC)
-	@echo Starting ./$(EXEC)
-	@echo ===============================
 	@./$(EXEC)
-
-.PHONY: test test_clean test_rebuild test_run
-test:
-	@cd tests; make
-
-test_clean:
-	@cd tests; make clean
-
-test_rebuild:
-	@cd tests; make rebuild
-
-test_run:
-	@cd tests; make run

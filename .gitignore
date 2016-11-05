@@ -1,3 +1,4 @@
 *.d
 *.o
-/fp_test
+/fp_demo
+/tests/catch_test
