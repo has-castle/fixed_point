@@ -2,7 +2,6 @@
 #define _HAS_CASTLE__FIXED_POINT_H
 
 #include <type_traits>
-#include <utility>
 #include <limits>
 #include <iostream>
 #include <cstdint>
