@@ -1,39 +1,61 @@
-#include "fixed_point.h"
 #include <iostream>
-#include <cstdint>
+#include "fixed_point.h"
 
-using has_castle::fixed_point::fixed_point;
+void simulate();
+void control_fixp();
+void print();
+using std::cout;
+using std::endl;
 
-using uf24p8_t = fixed_point<8, uint32_t>;
-using f15p16_t = fixed_point<16, int32_t>;
-using f7p24_t = fixed_point<24, int32_t>;
-using q8_t = fixed_point<8>;
+double real_value = 0.0;
+int u_control;
+int r_setpoint;
+int16_t sensordata;
+
+using namespace has_castle::fixed_point::types;
+const auto Kp = fp32_t<2>{10.25};
+const auto Sens_conv = fp32_t<12>{1. / 45.5};
 
 int main()
 {
+    cout << "Sens_conv: " << Sens_conv
+        << "\tKp: " << Kp << endl << endl;
+    for (auto i = 0; i < 10; i++)
     {
-        auto qb = f15p16_t{1};
-        auto q0 = f7p24_t{qb};
-        std::cout << "qb: " << qb << std::endl;
-        std::cout << "q0: " << q0 << std::endl;
-    }
-    {
-        auto q0 = q8_t{1.5};
-        auto q1 = fixed_point<0>{1};
-        auto q2 = q0 % q1;
-        std::cout << "q2: " << q2 << std::endl;
-        auto q3 = q8_t{3};
-        auto q4 = q0 % q3;
-        std::cout << "q4: " << q4 << std::endl;
-    }
-    {
-        auto q0 = q8_t{1.5};
-        auto q1 = fixed_point<0>{1};
-        auto q2 = q0 / q1;
-        std::cout << "q2: " << q2 << std::endl;
-        auto q3 = q8_t{3};
-        auto q4 = fixed_point<16>(q0) / q3;
-        std::cout << "q4: " << q4 << std::endl;
+        if (1 <= i)
+            r_setpoint = 100;
+        simulate();
+        print();
+        control_fixp();
     }
     return 0;
+}
+
+void control_fixp()
+{
+    auto y = Sens_conv * fp32_t<0>{sensordata};
+    auto e = fp32_t<12>{r_setpoint} - y;
+    auto u = e * Kp;
+    u_control = static_cast<int>(u);
+
+    cout << "\t-- CONTROL ::";
+    cout << "\ty: " << y;
+    cout << "  \te: " << e;
+    cout << "   \tu: " << u << endl;
+}
+
+void simulate()
+{
+    // Simple model of a dynamic system with a nontrivial relation between
+    // the control signal (u) and a sensor reading in nonstandard units.
+    real_value = 0.95 * real_value + 0.15 * u_control;
+    sensordata = real_value * 45.5;
+}
+
+void print()
+{
+    cout << "SIM ::";
+    cout << "\tcontrol " << u_control;
+    cout << "\tvalue: " << real_value;
+    cout << "\tsensor: " << sensordata;
 }
