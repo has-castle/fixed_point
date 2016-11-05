@@ -88,9 +88,9 @@ struct fixed_point
     constexpr explicit fixed_point(T0 value) noexcept
         : raw_value_(static_cast<value_type>(
               div_by_exp(value +
-                               static_cast<T0>(div_by_exp(value >= 0 ? 0.5 : -0.5,
-                                                            frac_bits::value)),
-                           -frac_bits::value))) {}
+                             static_cast<T0>(div_by_exp(value >= 0 ? 0.5 : -0.5,
+                                                        frac_bits::value)),
+                         -frac_bits::value))) {}
 
     // Raw constructor, initializes the internal raw value by the raw_value
     // parameter and shift it left by the amount specified by shift.
