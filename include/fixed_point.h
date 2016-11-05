@@ -255,9 +255,10 @@ struct fixed_point
         return *this;
     }
 
-    // Assignment division only works with a right-hand operand that has zero
+    // Assignment modulo only works with a right-hand operand that has zero
     // fractional bits (otherwise the type would have to change)
-    inline fixed_point &operator%=(const fixed_point<0, value_type> &rhs) noexcept
+    template <int F_rhs, typename T_rhs>
+    inline fixed_point &operator%=(const fixed_point<F_rhs, T_rhs> &rhs) noexcept
     {
         raw_value() %= this_type{rhs}.raw_value();
         return *this;
