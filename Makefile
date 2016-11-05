@@ -52,3 +52,12 @@ test_rebuild:
 
 test_run:
 	@cd tests; make run
+
+all: test $(EXEC)
+
+.PHONY: all_clean all_rebuild all_run
+all_clean: test_clean clean
+
+all_rebuild: test_rebuild rebuild
+
+all_run: test_run run
