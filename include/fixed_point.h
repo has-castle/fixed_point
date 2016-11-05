@@ -265,90 +265,6 @@ struct fixed_point
     }
 
     // ================================
-    // Shift operators
-    // ================================
-
-    // Shift operators do not change the fractional bit count of the fixed
-    // point number. To change
-
-    // Shift left
-    constexpr fixed_point operator<<(const int &rhs) const noexcept
-    {
-        return fixed_point{raw_value() << rhs, 0};
-    }
-
-    // Shift right
-    constexpr fixed_point operator>>(const int &rhs) const noexcept
-    {
-        return fixed_point{raw_value() >> rhs, 0};
-    }
-
-    // Assignment shift left
-    inline fixed_point &operator<<=(const int &rhs) noexcept
-    {
-        raw_value() <<= rhs;
-        return *this;
-    }
-
-    // Assignment shift right
-    inline fixed_point &operator>>=(const int &rhs) noexcept
-    {
-        raw_value() >>= rhs;
-        return *this;
-    }
-
-    // ================================
-    // Bit operators
-    // ================================
-
-    // Bit operators operate on the raw value directly.
-
-    // Bit-and
-    constexpr fixed_point operator&(const fixed_point &rhs) const noexcept
-    {
-        return {raw_value() & rhs.raw_value(), 0};
-    }
-
-    // Bit-or
-    constexpr fixed_point operator|(const fixed_point &rhs) const noexcept
-    {
-        return {raw_value() | rhs.raw_value(), 0};
-    }
-
-    // Bit-xor
-    constexpr fixed_point operator^(const fixed_point &rhs) const noexcept
-    {
-        return {raw_value() ^ rhs.raw_value(), 0};
-    }
-
-    // Bit-negate
-    constexpr fixed_point operator~() const noexcept
-    {
-        return {~raw_value(), 0};
-    }
-
-    // Assignment bit-and
-    inline fixed_point &operator&=(const fixed_point &rhs) noexcept
-    {
-        raw_value() &= rhs;
-        return *this;
-    }
-
-    // Assignment bit-or
-    inline fixed_point &operator|=(const fixed_point &rhs) noexcept
-    {
-        raw_value() |= rhs;
-        return *this;
-    }
-
-    // Assignment bit-xor
-    inline fixed_point &operator^=(const fixed_point &rhs) noexcept
-    {
-        raw_value() ^= rhs;
-        return *this;
-    }
-
-    // ================================
     // Comparison operators
     // ================================
 
@@ -393,6 +309,104 @@ inline std::ostream &operator<<(std::ostream &os, fixed_point<F, T> fp)
        << "." << decltype(fp)::frac_bits::value << ")";
     return os;
 }
+
+namespace bit_operators
+{
+// ================================
+// Shift operators
+// ================================
+
+// Shift operators do not change the fractional bit count of the fixed
+// point number. To change
+
+// Shift left
+template <int F, typename T>
+constexpr fixed_point<F, T> operator<<(const fixed_point<F, T> &fp, const int &rhs) noexcept
+{
+    return {fp.raw_value() << rhs, 0};
+}
+
+// Shift right
+template <int F, typename T>
+constexpr fixed_point<F, T> operator>>(const fixed_point<F, T> &fp, const int &rhs) noexcept
+{
+    return {fp.raw_value() >> rhs, 0};
+}
+
+// Assignment shift left
+template <int F, typename T>
+inline fixed_point<F, T> &operator<<=(fixed_point<F, T> &fp, const int &rhs) noexcept
+{
+    fp.raw_value() <<= rhs;
+    return fp;
+}
+
+// Assignment shift right
+template <int F, typename T>
+inline fixed_point<F, T> &operator>>=(fixed_point<F, T> &fp, const int &rhs) noexcept
+{
+    fp.raw_value() >>= rhs;
+    return fp;
+}
+
+// ================================
+// Bit operators
+// ================================
+
+// Bit operators operate on the raw value directly.
+
+// Bit-and
+template <int F, typename T>
+constexpr fixed_point<F, T> operator&(const fixed_point<F, T> &lhs, const fixed_point<F, T> &rhs) noexcept
+{
+    return {lhs.raw_value() & rhs.raw_value(), 0};
+}
+
+// Bit-or
+template <int F, typename T>
+constexpr fixed_point<F, T> operator|(const fixed_point<F, T> &lhs, const fixed_point<F, T> &rhs) noexcept
+{
+    return {lhs.raw_value() | rhs.raw_value(), 0};
+}
+
+// Bit-xor
+template <int F, typename T>
+constexpr fixed_point<F, T> operator^(const fixed_point<F, T> &lhs, const fixed_point<F, T> &rhs) noexcept
+{
+    return {lhs.raw_value() ^ rhs.raw_value(), 0};
+}
+
+// Bit-negate
+template <int F, typename T>
+constexpr fixed_point<F, T> operator~(const fixed_point<F, T> &lhs) noexcept
+{
+    return {~lhs.raw_value(), 0};
+}
+
+// Assignment bit-and
+template <int F, typename T>
+inline fixed_point<F, T> &operator&=(const fixed_point<F, T> &lhs, const fixed_point<F, T> &rhs) noexcept
+{
+    lhs.raw_value() &= rhs.raw_value();
+    return lhs;
+}
+
+// Assignment bit-or
+template <int F, typename T>
+inline fixed_point<F, T> &operator|=(const fixed_point<F, T> &lhs, const fixed_point<F, T> &rhs) noexcept
+{
+    lhs.raw_value() |= rhs.raw_value();
+    return lhs;
+}
+
+// Assignment bit-xor
+template <int F, typename T>
+inline fixed_point<F, T> &operator^=(const fixed_point<F, T> &lhs, const fixed_point<F, T> &rhs) noexcept
+{
+    lhs.raw_value() ^= rhs.raw_value();
+    return lhs;
+}
+} // namespace bit_operators
 
 } // namespace fixed_point
 } // namespace has_castle
