@@ -2,7 +2,7 @@
 #define _HAS_CASTLE__FIXED_POINT__TESTS_H
 
 #include "catch.hpp"
-#include "fixed_point.h"
+#include "fixed_point/fixed_point.hpp"
 #include <cstdint>
 
 using has_castle::fixed_point::fixed_point;

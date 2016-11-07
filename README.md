@@ -11,7 +11,7 @@ Using fixed point arithmetic is recommended when floating point arithmetic is to
 ## Demo
 
 ```C++
-#include "fixed_point.h"
+#include "fixed_point/fixed_point.hpp"
 using namespace has_castle::fixed_point::types;
 
 // Define a 29.2 and 19.12 format constant.

@@ -1,5 +1,5 @@
 #include <iostream>
-#include "fixed_point.h"
+#include "fixed_point/fixed_point.hpp"
 
 void simulate();
 void control_fixp();
