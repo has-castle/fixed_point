@@ -5,28 +5,12 @@
 #include <limits>
 #include <iostream>
 #include <cstdint>
+#include "util.hpp"
 
 namespace has_castle
 {
 namespace fixed_point
 {
-
-template <typename T = int>
-constexpr T shift_by(T value, int amount) noexcept
-{
-    // Note shifting by a negative value or shifting a negative value is
-    // undefined. We avoid this here.
-    return value < 0 ? amount < 0 ? -(-value >> -amount) : -(-value << amount) : amount < 0 ? value >> -amount : value << amount;
-}
-
-// Returns value / (2 ** exp) with the precision of T and allowing negative exp.
-template <typename T>
-static constexpr T div_by_exp(T value, int exp) noexcept
-{
-    // Here we replace exponentiation with shifting in a well-defined way and
-    // using division or multiplication appropriately.
-    return exp < 0 ? value * (1 << -exp) : value / (1 << exp);
-}
 
 template <int F, typename T = int>
 struct fixed_point
@@ -69,13 +53,13 @@ struct fixed_point
 
     // Value-type constructor, value parameter specifies the int_part.
     constexpr explicit fixed_point(value_type int_part) noexcept
-        : raw_value_(shift_by(int_part, frac_bits::value)) {}
+        : raw_value_(detail::shift_by(int_part, frac_bits::value)) {}
 
     // Constructor based on other fixed_point<> type with same value_type
     // This can be used for conversion between
     template <int F_other>
     constexpr explicit fixed_point(const fixed_point<F_other, value_type> &other) noexcept
-        : raw_value_(shift_by(other.raw_value(), frac_bits::value - F_other)) {}
+        : raw_value_(detail::shift_by(other.raw_value(), frac_bits::value - F_other)) {}
 
     // Constructor based on other fixed_point<> type with same number of fractional bits
     template <typename T_other>
@@ -87,10 +71,8 @@ struct fixed_point
     template <typename T0>
     constexpr explicit fixed_point(T0 value) noexcept
         : raw_value_(static_cast<value_type>(
-              div_by_exp(value +
-                             static_cast<T0>(div_by_exp(value >= 0 ? 0.5 : -0.5,
-                                                        frac_bits::value)),
-                         -frac_bits::value))) {}
+              detail::div_by_exp(value + static_cast<T0>(detail::div_by_exp(value >= 0 ? 0.5 : -0.5, frac_bits::value)),
+                                 -frac_bits::value))) {}
 
     // Raw constructor, initializes the internal raw value by the raw_value
     // parameter and shift it left by the amount specified by shift.
@@ -98,7 +80,7 @@ struct fixed_point
     // and enables us to omit the type before a return statement when using
     // this constructor.
     constexpr fixed_point(value_type raw_value, int shift) noexcept
-        : raw_value_(shift_by(raw_value, shift)) {}
+        : raw_value_(detail::shift_by(raw_value, shift)) {}
 
     // ================================
     // Access methods
@@ -119,7 +101,7 @@ struct fixed_point
     // Integer part
     constexpr value_type int_part() const noexcept
     {
-        return shift_by(raw_value(), -frac_bits::value);
+        return detail::shift_by(raw_value(), -frac_bits::value);
     }
 
     // Fractional part
@@ -159,7 +141,7 @@ struct fixed_point
                       "The value_type must be convertible to T2 template type.");
         // See operator value_type() cast. Returning the integer part is the
         // consistent choice with respect to the constructors.
-        return div_by_exp(static_cast<T2>(raw_value()), frac_bits::value);
+        return detail::div_by_exp(static_cast<T2>(raw_value()), frac_bits::value);
     }
 
 }; // struct fixed_point
