@@ -12,7 +12,7 @@ int u_control;
 int r_setpoint;
 int16_t sensordata;
 
-using namespace has_castle::fixed_point::types;
+using namespace has_castle::fixed_point;
 const auto Kp = fp32_t<2>{10.25};
 const auto Sens_conv = fp32_t<12>{1. / 45.5};
 
