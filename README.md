@@ -108,6 +108,15 @@ auto d5 = fp64_t<16>{0xBEEF, 13} // Raw constructor: backing value will be (0xBE
 
 `operator%` and `%=` only works as expected when the native `operator%` is applied to the underlying type when the precision of the right-hand operand is the same as the left-hand. Here an additional shift is introduced to support all fractional precisions.
 
+## Other libraries to consider
+
+A list of other fixed-point arithmetic or related implementations follow. These can be considered either as replacement or complementary libraries to be used with this one.
+
+* [fixed_point Numerics Library (@johnmcfarlane)](https://github.com/johnmcfarlane/fixed_point) -- replacement -- header-only C++11 library with a standard library proposal (see link)
+* [C++14 Fixed Point Library (@mizvekov)](https://github.com/mizvekov/fp) -- replacement -- header-only C++14 with adapters for Boost multiprecision, rational and David Stone's bounded_integer.
+* [Fixed Point Class (PeterSchregle on CodeProject)](http://www.codeproject.com/Articles/37636/Fixed-Point-Class) -- replacement/complementary -- Provides fixed point algorithms
+* [Bounded integer (David Stone)](https://bitbucket.org/davidstone/bounded_integer) -- complementary -- Compile-time bounds checking with optional runtime checks
+
 ## About fixed point arithmetic
 
 > In computing, a fixed-point number representation is a real data type for a number that has a fixed number of digits after (and sometimes also before) the radix point (after the decimal point '.' in English decimal notation). – [_Wikipedia_](https://en.wikipedia.org/wiki/Fixed-point_arithmetic)
