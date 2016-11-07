@@ -300,14 +300,6 @@ struct fixed_point
 
 }; // struct fixed_point
 
-template <int F, typename T>
-inline std::ostream &operator<<(std::ostream &os, fixed_point<F, T> fp)
-{
-    os << fp.int_part() << "+" << fp.frac_part()
-       << "/2^" << decltype(fp)::frac_bits::value;
-    return os;
-}
-
 namespace bit_operators
 {
 // ================================
