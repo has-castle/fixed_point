@@ -16,33 +16,35 @@ namespace fixed_point
 // point number. To change
 
 // Shift left
-template <int F, typename T>
-constexpr fixed_point<F, T> operator<<(const fixed_point<F, T> &fp, const int &rhs) noexcept
+template <typename Lhs>
+constexpr auto operator<<(const Lhs &lhs, const int &rhs) noexcept
+    -> fixed_point<Lhs::frac_bits::value, decltype(lhs.raw_value() << rhs)>
 {
-    return {fp.raw_value() << rhs, 0};
+    return {lhs.raw_value() << rhs, 0};
 }
 
 // Shift right
-template <int F, typename T>
-constexpr fixed_point<F, T> operator>>(const fixed_point<F, T> &fp, const int &rhs) noexcept
+template <typename Lhs>
+constexpr auto operator>>(const Lhs &lhs, const int &rhs) noexcept
+    -> fixed_point<Lhs::frac_bits::value, decltype(lhs.raw_value() >> rhs)>
 {
-    return {fp.raw_value() >> rhs, 0};
+    return {lhs.raw_value() >> rhs, 0};
 }
 
 // Assignment shift left
-template <int F, typename T>
-inline fixed_point<F, T> &operator<<=(fixed_point<F, T> &fp, const int &rhs) noexcept
+template <typename Lhs>
+inline Lhs &operator<<=(Lhs &lhs, const int &rhs) noexcept
 {
-    fp.raw_value() <<= rhs;
-    return fp;
+    lhs.raw_value() <<= rhs;
+    return lhs;
 }
 
 // Assignment shift right
-template <int F, typename T>
-inline fixed_point<F, T> &operator>>=(fixed_point<F, T> &fp, const int &rhs) noexcept
+template <typename Lhs>
+inline Lhs &operator>>=(Lhs &lhs, const int &rhs) noexcept
 {
-    fp.raw_value() >>= rhs;
-    return fp;
+    lhs.raw_value() >>= rhs;
+    return lhs;
 }
 
 // ================================
@@ -52,52 +54,56 @@ inline fixed_point<F, T> &operator>>=(fixed_point<F, T> &fp, const int &rhs) noe
 // Bit operators operate on the raw value directly.
 
 // Bit-and
-template <int F, typename T>
-constexpr fixed_point<F, T> operator&(const fixed_point<F, T> &lhs, const fixed_point<F, T> &rhs) noexcept
+template <typename Lhs, typename Rhs>
+constexpr auto operator&(const Lhs &lhs, const Rhs &rhs) noexcept
+    -> fixed_point<Lhs::frac_bits::value, decltype(lhs.raw_value() & rhs.raw_value())>
 {
     return {lhs.raw_value() & rhs.raw_value(), 0};
 }
 
 // Bit-or
-template <int F, typename T>
-constexpr fixed_point<F, T> operator|(const fixed_point<F, T> &lhs, const fixed_point<F, T> &rhs) noexcept
+template <typename Lhs, typename Rhs>
+constexpr auto operator|(const Lhs &lhs, const Rhs &rhs) noexcept
+    -> fixed_point<Lhs::frac_bits::value, decltype(lhs.raw_value() | rhs.raw_value())>
 {
     return {lhs.raw_value() | rhs.raw_value(), 0};
 }
 
 // Bit-xor
-template <int F, typename T>
-constexpr fixed_point<F, T> operator^(const fixed_point<F, T> &lhs, const fixed_point<F, T> &rhs) noexcept
+template <typename Lhs, typename Rhs>
+constexpr auto operator^(const Lhs &lhs, const Rhs &rhs) noexcept
+    -> fixed_point<Lhs::frac_bits::value, decltype(lhs.raw_value() ^ rhs.raw_value())>
 {
     return {lhs.raw_value() ^ rhs.raw_value(), 0};
 }
 
 // Bit-negate
-template <int F, typename T>
-constexpr fixed_point<F, T> operator~(const fixed_point<F, T> &lhs) noexcept
+template <typename Lhs>
+constexpr auto operator~(const Lhs &lhs) noexcept
+    -> fixed_point<Lhs::frac_bits::value, decltype(~lhs.raw_value())>
 {
     return {~lhs.raw_value(), 0};
 }
 
 // Assignment bit-and
-template <int F, typename T>
-inline fixed_point<F, T> &operator&=(const fixed_point<F, T> &lhs, const fixed_point<F, T> &rhs) noexcept
+template <typename Lhs, typename Rhs>
+inline Lhs &operator&=(Lhs &lhs, const Rhs &rhs) noexcept
 {
     lhs.raw_value() &= rhs.raw_value();
     return lhs;
 }
 
 // Assignment bit-or
-template <int F, typename T>
-inline fixed_point<F, T> &operator|=(const fixed_point<F, T> &lhs, const fixed_point<F, T> &rhs) noexcept
+template <typename Lhs, typename Rhs>
+inline Lhs &operator|=(Lhs &lhs, const Rhs &rhs) noexcept
 {
     lhs.raw_value() |= rhs.raw_value();
     return lhs;
 }
 
 // Assignment bit-xor
-template <int F, typename T>
-inline fixed_point<F, T> &operator^=(const fixed_point<F, T> &lhs, const fixed_point<F, T> &rhs) noexcept
+template <typename Lhs, typename Rhs>
+inline Lhs &operator^=(Lhs &lhs, const Rhs &rhs) noexcept
 {
     lhs.raw_value() ^= rhs.raw_value();
     return lhs;
