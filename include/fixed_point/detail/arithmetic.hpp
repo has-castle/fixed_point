@@ -73,6 +73,14 @@ constexpr auto operator*(const Lhs &lhs, const Rhs &rhs) noexcept
     return {lhs.raw_value() * rhs.raw_value(), 0};
 }
 
+// Multiplication with value_type (usually some integer)
+template <typename Lhs>
+constexpr auto operator*(const Lhs &lhs, const typename Lhs::value_type &rhs) noexcept
+    -> fixed_point<Lhs::frac_bits::value, decltype(lhs.raw_value() * rhs)>
+{
+    return {lhs.raw_value() * rhs, 0};
+}
+
 // Division results in the fractional part being adjusted to the difference
 // of the operands' fractional bit count.
 template <typename Lhs, typename Rhs>
@@ -80,6 +88,14 @@ constexpr auto operator/(const Lhs &lhs, const Rhs &rhs) noexcept
     -> fixed_point<Lhs::frac_bits::value - Rhs::frac_bits::value, decltype(lhs.raw_value() / rhs.raw_value())>
 {
     return {lhs.raw_value() / rhs.raw_value(), 0};
+}
+
+// Division by value_type (usually some integer)
+template <typename Lhs>
+constexpr auto operator/(const Lhs &lhs, const typename Lhs::value_type &rhs) noexcept
+    -> fixed_point<Lhs::frac_bits::value, decltype(lhs.raw_value() / rhs)>
+{
+    return {lhs.raw_value() / rhs, 0};
 }
 
 // Modulo results in the fractional part being adjusted to the difference
