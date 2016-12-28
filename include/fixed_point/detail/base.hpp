@@ -19,10 +19,6 @@ struct fixed_point
     using value_type = T;
     // The type of the entire fixed_point structure.
     using this_type = fixed_point<F, T>;
-    // The number of fractional bits in the fixed_point number
-    using frac_bits = std::integral_constant<int, F>;
-    // The number of integer bits int the fixed_point number
-    using int_bits = std::integral_constant<int, std::numeric_limits<value_type>::digits - frac_bits::value>;
     // Check validity of template parameters.
     static_assert(std::is_integral<value_type>::value, "T must be integral type.");
 
@@ -31,10 +27,19 @@ struct fixed_point
 
     static constexpr value_type frac_mask() noexcept
     {
-        return frac_bits::value <= 0 ? 0 : int_bits::value <= 0 ? ~0 : ((1 << (frac_bits::value)) - 1);
+        return frac_bits <= 0 ? 0 : int_bits <= 0 ? ~0 : ((1 << (frac_bits)) - 1);
     }
 
   public:
+    // ================================
+    // Static members
+    // ================================
+
+    // The number of fractional bits in the fixed_point number
+    static const int frac_bits = F;
+    // The number of integer bits int the fixed_point number
+    static const int int_bits = std::numeric_limits<value_type>::digits - frac_bits;
+
     // ================================
     // Constructors
     // ================================
@@ -53,17 +58,17 @@ struct fixed_point
 
     // Value-type constructor, value parameter specifies the int_part.
     constexpr explicit fixed_point(value_type int_part) noexcept
-        : raw_value_(detail::shift_by(int_part, frac_bits::value)) {}
+        : raw_value_(detail::shift_by(int_part, frac_bits)) {}
 
     // Constructor based on other fixed_point<> type with same value_type
     // This can be used for conversion between
     template <int F_other>
     constexpr explicit fixed_point(const fixed_point<F_other, value_type> &other) noexcept
-        : raw_value_(detail::shift_by(other.raw_value(), frac_bits::value - F_other)) {}
+        : raw_value_(detail::shift_by(other.raw_value(), frac_bits - F_other)) {}
 
     // Constructor based on other fixed_point<> type with same number of fractional bits
     template <typename T_other>
-    constexpr explicit fixed_point(const fixed_point<frac_bits::value, T_other> &other) noexcept
+    constexpr explicit fixed_point(const fixed_point<frac_bits, T_other> &other) noexcept
         : raw_value_(static_cast<value_type>(other.raw_value())) {}
 
     // Generic constructor, works with float, double or long double with
@@ -71,8 +76,8 @@ struct fixed_point
     template <typename T0>
     constexpr explicit fixed_point(T0 value) noexcept
         : raw_value_(static_cast<value_type>(
-              detail::div_by_exp(value + static_cast<T0>(detail::div_by_exp(value >= 0 ? 0.5 : -0.5, frac_bits::value)),
-                                 -frac_bits::value))) {}
+              detail::div_by_exp(value + static_cast<T0>(detail::div_by_exp(value >= 0 ? 0.5 : -0.5, frac_bits)),
+                                 -frac_bits))) {}
 
     // Raw constructor, initializes the internal raw value by the raw_value
     // parameter and shift it left by the amount specified by shift.
@@ -101,7 +106,7 @@ struct fixed_point
     // Integer part
     constexpr value_type int_part() const noexcept
     {
-        return detail::shift_by(raw_value(), -frac_bits::value);
+        return detail::shift_by(raw_value(), -frac_bits);
     }
 
     // Fractional part
@@ -141,7 +146,7 @@ struct fixed_point
                       "The value_type must be convertible to T2 template type.");
         // See operator value_type() cast. Returning the integer part is the
         // consistent choice with respect to the constructors.
-        return detail::div_by_exp(static_cast<T2>(raw_value()), frac_bits::value);
+        return detail::div_by_exp(static_cast<T2>(raw_value()), frac_bits);
     }
 
 }; // struct fixed_point

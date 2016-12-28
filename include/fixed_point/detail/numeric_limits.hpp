@@ -13,7 +13,7 @@ template <int F, typename T>
 struct numeric_limits<fixed_point<F, T>>
 {
     using fp = fixed_point<F, T>;
-    using lim = numeric_limits<fp>;
+    using lim = numeric_limits<T>;
     
     static constexpr bool is_specialized = true;
     static constexpr bool is_signed = lim::is_signed;

@@ -33,7 +33,7 @@ int main()
 
 void control_fixp()
 {
-    auto y = Sens_conv * fp32_t<0>{sensordata};
+    auto y = Sens_conv * sensordata;
     auto e = fp32_t<12>{r_setpoint} - y;
     auto u = e * Kp;
     u_control = static_cast<int>(u);
