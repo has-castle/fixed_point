@@ -48,13 +48,6 @@ constexpr bool operator!=(const Lhs &lhs, const Rhs &rhs) noexcept
     return lhs.raw_value() != rhs.raw_value();
 }
 
-template <typename Lhs>
-inline auto operator!(Lhs& lhs) noexcept
-    -> fixed_point<Lhs::frac_bits, decltype(!lhs.raw_value())>
-{
-    return {!lhs.raw_value(), 0};
-}
-
 } // namespace fixed_point
 } // namespace has_castle
 
