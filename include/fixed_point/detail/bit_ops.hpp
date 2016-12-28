@@ -18,7 +18,7 @@ namespace fixed_point
 // Shift left
 template <typename Lhs>
 constexpr auto operator<<(const Lhs &lhs, const int &rhs) noexcept
-    -> fixed_point<Lhs::frac_bits::value, decltype(lhs.raw_value() << rhs)>
+    -> fixed_point<Lhs::frac_bits, decltype(lhs.raw_value() << rhs)>
 {
     return {lhs.raw_value() << rhs, 0};
 }
@@ -26,7 +26,7 @@ constexpr auto operator<<(const Lhs &lhs, const int &rhs) noexcept
 // Shift right
 template <typename Lhs>
 constexpr auto operator>>(const Lhs &lhs, const int &rhs) noexcept
-    -> fixed_point<Lhs::frac_bits::value, decltype(lhs.raw_value() >> rhs)>
+    -> fixed_point<Lhs::frac_bits, decltype(lhs.raw_value() >> rhs)>
 {
     return {lhs.raw_value() >> rhs, 0};
 }
@@ -56,7 +56,7 @@ inline Lhs &operator>>=(Lhs &lhs, const int &rhs) noexcept
 // Bit-and
 template <typename Lhs, typename Rhs>
 constexpr auto operator&(const Lhs &lhs, const Rhs &rhs) noexcept
-    -> fixed_point<Lhs::frac_bits::value, decltype(lhs.raw_value() & rhs.raw_value())>
+    -> fixed_point<Lhs::frac_bits, decltype(lhs.raw_value() & rhs.raw_value())>
 {
     return {lhs.raw_value() & rhs.raw_value(), 0};
 }
@@ -64,7 +64,7 @@ constexpr auto operator&(const Lhs &lhs, const Rhs &rhs) noexcept
 // Bit-or
 template <typename Lhs, typename Rhs>
 constexpr auto operator|(const Lhs &lhs, const Rhs &rhs) noexcept
-    -> fixed_point<Lhs::frac_bits::value, decltype(lhs.raw_value() | rhs.raw_value())>
+    -> fixed_point<Lhs::frac_bits, decltype(lhs.raw_value() | rhs.raw_value())>
 {
     return {lhs.raw_value() | rhs.raw_value(), 0};
 }
@@ -72,7 +72,7 @@ constexpr auto operator|(const Lhs &lhs, const Rhs &rhs) noexcept
 // Bit-xor
 template <typename Lhs, typename Rhs>
 constexpr auto operator^(const Lhs &lhs, const Rhs &rhs) noexcept
-    -> fixed_point<Lhs::frac_bits::value, decltype(lhs.raw_value() ^ rhs.raw_value())>
+    -> fixed_point<Lhs::frac_bits, decltype(lhs.raw_value() ^ rhs.raw_value())>
 {
     return {lhs.raw_value() ^ rhs.raw_value(), 0};
 }
@@ -80,7 +80,7 @@ constexpr auto operator^(const Lhs &lhs, const Rhs &rhs) noexcept
 // Bit-negate
 template <typename Lhs>
 constexpr auto operator~(const Lhs &lhs) noexcept
-    -> fixed_point<Lhs::frac_bits::value, decltype(~lhs.raw_value())>
+    -> fixed_point<Lhs::frac_bits, decltype(~lhs.raw_value())>
 {
     return {~lhs.raw_value(), 0};
 }

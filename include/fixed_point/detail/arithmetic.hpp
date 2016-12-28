@@ -13,23 +13,23 @@ namespace fixed_point
 // ================================
 
 // Binary addition
-template <typename Lhs, typename Rhs, typename = std::enable_if<Lhs::frac_bits::value == Rhs::frac_bits::value>>
+template <typename Lhs, typename Rhs, typename = typename std::enable_if<Lhs::frac_bits == Rhs::frac_bits>::type>
 constexpr auto operator+(const Lhs &lhs, const Rhs &rhs) noexcept
-    -> fixed_point<Lhs::frac_bits::value, decltype(lhs.raw_value() + rhs.raw_value())>
+    -> fixed_point<Lhs::frac_bits, decltype(lhs.raw_value() + rhs.raw_value())>
 {
     return {lhs.raw_value() + rhs.raw_value(), 0};
 }
 
 // Binary subtraction
-template <typename Lhs, typename Rhs, typename = std::enable_if<Lhs::frac_bits::value == Rhs::frac_bits::value>>
+template <typename Lhs, typename Rhs, typename = typename std::enable_if<Lhs::frac_bits == Rhs::frac_bits>::type>
 constexpr auto operator-(const Lhs &lhs, const Rhs &rhs) noexcept
-    -> fixed_point<Lhs::frac_bits::value, decltype(lhs.raw_value() - rhs.raw_value())>
+    -> fixed_point<Lhs::frac_bits, decltype(lhs.raw_value() - rhs.raw_value())>
 {
     return {lhs.raw_value() - rhs.raw_value(), 0};
 }
 
 // Assignment plus
-template <typename Lhs, typename Rhs, typename = std::enable_if<Lhs::frac_bits::value == Rhs::frac_bits::value>>
+template <typename Lhs, typename Rhs, typename = typename std::enable_if<Lhs::frac_bits == Rhs::frac_bits>::type>
 inline Lhs &operator+=(Lhs &lhs, const Rhs &rhs) noexcept
 {
     lhs.raw_value() += rhs.raw_value();
@@ -37,7 +37,7 @@ inline Lhs &operator+=(Lhs &lhs, const Rhs &rhs) noexcept
 }
 
 // Assignment minus
-template <typename Lhs, typename Rhs, typename = std::enable_if<Lhs::frac_bits::value == Rhs::frac_bits::value>>
+template <typename Lhs, typename Rhs, typename = typename std::enable_if<Lhs::frac_bits == Rhs::frac_bits>::type>
 inline Lhs &operator-=(Lhs &lhs, const Rhs &rhs) noexcept
 {
     lhs.raw_value() -= rhs.raw_value();
@@ -47,7 +47,7 @@ inline Lhs &operator-=(Lhs &lhs, const Rhs &rhs) noexcept
 // Unary plus
 template <typename Lhs>
 constexpr auto operator+(const Lhs lhs) noexcept
-    -> fixed_point<Lhs::frac_bits::value, decltype(+lhs.raw_value())>
+    -> fixed_point<Lhs::frac_bits, decltype(+lhs.raw_value())>
 {
     return {+lhs.raw_value(), 0};
 }
@@ -55,7 +55,7 @@ constexpr auto operator+(const Lhs lhs) noexcept
 // Unary minus
 template <typename Lhs>
 constexpr auto operator-(const Lhs &lhs) noexcept
-    -> fixed_point<Lhs::frac_bits::value, decltype(-lhs.raw_value())>
+    -> fixed_point<Lhs::frac_bits, decltype(-lhs.raw_value())>
 {
     return {-lhs.raw_value(), 0};
 }
@@ -68,7 +68,7 @@ constexpr auto operator-(const Lhs &lhs) noexcept
 // operands' fractional bit count
 template <typename Lhs, typename Rhs>
 constexpr auto operator*(const Lhs &lhs, const Rhs &rhs) noexcept
-    -> fixed_point<Lhs::frac_bits::value + Rhs::frac_bits::value, decltype(lhs.raw_value() * rhs.raw_value())>
+    -> fixed_point<Lhs::frac_bits + Rhs::frac_bits, decltype(lhs.raw_value() * rhs.raw_value())>
 {
     return {lhs.raw_value() * rhs.raw_value(), 0};
 }
@@ -76,7 +76,7 @@ constexpr auto operator*(const Lhs &lhs, const Rhs &rhs) noexcept
 // Multiplication with value_type (usually some integer)
 template <typename Lhs>
 constexpr auto operator*(const Lhs &lhs, const typename Lhs::value_type &rhs) noexcept
-    -> fixed_point<Lhs::frac_bits::value, decltype(lhs.raw_value() * rhs)>
+    -> fixed_point<Lhs::frac_bits, decltype(lhs.raw_value() * rhs)>
 {
     return {lhs.raw_value() * rhs, 0};
 }
@@ -85,7 +85,7 @@ constexpr auto operator*(const Lhs &lhs, const typename Lhs::value_type &rhs) no
 // of the operands' fractional bit count.
 template <typename Lhs, typename Rhs>
 constexpr auto operator/(const Lhs &lhs, const Rhs &rhs) noexcept
-    -> fixed_point<Lhs::frac_bits::value - Rhs::frac_bits::value, decltype(lhs.raw_value() / rhs.raw_value())>
+    -> fixed_point<Lhs::frac_bits - Rhs::frac_bits, decltype(lhs.raw_value() / rhs.raw_value())>
 {
     return {lhs.raw_value() / rhs.raw_value(), 0};
 }
@@ -93,14 +93,14 @@ constexpr auto operator/(const Lhs &lhs, const Rhs &rhs) noexcept
 // Division by value_type (usually some integer)
 template <typename Lhs>
 constexpr auto operator/(const Lhs &lhs, const typename Lhs::value_type &rhs) noexcept
-    -> fixed_point<Lhs::frac_bits::value, decltype(lhs.raw_value() / rhs)>
+    -> fixed_point<Lhs::frac_bits, decltype(lhs.raw_value() / rhs)>
 {
     return {lhs.raw_value() / rhs, 0};
 }
 
 // Modulo results in the fractional part being adjusted to the difference
 // of the operands' fractional bit count.
-template <typename Lhs, typename Rhs, typename = std::enable_if<Lhs::frac_bits::value == Rhs::frac_bits::value>>
+template <typename Lhs, typename Rhs, typename = typename std::enable_if<Lhs::frac_bits == Rhs::frac_bits>::type>
 constexpr auto operator%(const Lhs &lhs, const Rhs &rhs) noexcept
     -> fixed_point<Lhs::frac_bits, decltype(lhs.raw_value() % rhs.raw_value())>
 {
@@ -109,7 +109,7 @@ constexpr auto operator%(const Lhs &lhs, const Rhs &rhs) noexcept
 
 // Assignment multiplication only works with a right-hand operand that has
 // zero fractional bits (otherwise the type would have to change)
-template <typename Lhs, typename Rhs, typename = std::enable_if<Rhs::frac_bits::value == 0>>
+template <typename Lhs, typename Rhs, typename = typename std::enable_if<Rhs::frac_bits == 0>::type>
 inline Lhs &operator*=(Lhs &lhs, const Rhs &rhs) noexcept
 {
     lhs.raw_value() *= rhs.raw_value();
@@ -118,7 +118,7 @@ inline Lhs &operator*=(Lhs &lhs, const Rhs &rhs) noexcept
 
 // Assignment division only works with a right-hand operand that has zero
 // fractional bits (otherwise the type would have to change)
-template <typename Lhs, typename Rhs, typename = std::enable_if<Rhs::frac_bits::value == 0>>
+template <typename Lhs, typename Rhs, typename = typename std::enable_if<Rhs::frac_bits == 0>::type>
 inline Lhs &operator/=(Lhs &lhs, const Rhs &rhs) noexcept
 {
     lhs.raw_value() /= rhs.raw_value();
@@ -128,7 +128,7 @@ inline Lhs &operator/=(Lhs &lhs, const Rhs &rhs) noexcept
 // Assignment modulo only works with a right-hand operand that has zero
 // fractional bits (otherwise the type would have to change)
 //template <int F_lhs, typename T_lhs, int F_rhs, typename T_rhs>
-template <typename Lhs, typename Rhs, typename = std::enable_if<Lhs::frac_bits::value == Rhs::frac_bits::value>>
+template <typename Lhs, typename Rhs, typename = typename std::enable_if<Lhs::frac_bits == Rhs::frac_bits>::type>
 inline Lhs &operator%=(Lhs &lhs, const Rhs &rhs) noexcept
 {
     lhs.raw_value() %= rhs.raw_value();

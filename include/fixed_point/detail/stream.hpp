@@ -22,7 +22,7 @@ template <int F, typename T, typename Rhs = fixed_point<F, T>>
 inline std::ostream &operator<<(std::ostream &os, const fixed_point<F, T> &rhs)
 {
     os << rhs.int_part() << "+" << rhs.frac_part()
-       << "/2^" << Rhs::frac_bits::value;
+       << "/2^" << Rhs::frac_bits;
     return os;
 }
 
@@ -42,7 +42,7 @@ inline std::istream &operator>>(std::istream &is, Rhs &rhs)
     if (s != "/2^")
         throw format_exception{"Missing '/2^'"};
     is >> frac_part;
-    if (frac_part != Rhs::frac_bits::value)
+    if (frac_part != Rhs::frac_bits)
         throw format_exception{"Unexpected exponent"};
     rhs.raw_value() = (int_part << frac_bits) | frac_part;
     return is;

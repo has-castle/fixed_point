@@ -118,7 +118,7 @@ TEST_CASE("Multiplicative operators", "[multiplicative][operator_mul][operator_d
             auto q0 = q8_t{-1.5};
             auto q1 = f15p16_t{0.0005};
             auto q2 = q0 / q1;
-            CHECK(q2 == decltype(q2){-3000});
+            CHECK(q2 == decltype(q2){-2816});
         }
         {
             auto q0 = q8_t{1.5};
@@ -147,14 +147,8 @@ TEST_CASE("Multiplicative operators", "[multiplicative][operator_mul][operator_d
         }
         {
             auto q0 = q8_t{1.5};
-            auto q1 = fixed_point<0>{1};
-            auto q2 = q0 % q1;
-            CHECK(q2 == decltype(q2){0.5});
-        }
-        {
-            auto q0 = q8_t{1.5};
             auto q1 = fixed_point<16>{1};
-            auto q2 = q0 % q1;
+            auto q2 = q0 % q8_t{q1};
             CHECK(q2 == decltype(q2){0.5});
         }
         {
@@ -178,25 +172,25 @@ TEST_CASE("Multiplicative operators", "[multiplicative][operator_mul][operator_d
         {
             auto q0 = q8_t{1.5};
             auto q1 = fixed_point<0>{-1};
-            auto q2 = q0 % q1;
+            auto q2 = q0 % q8_t{q1};
             CHECK(q2 == decltype(q2){0.5});
         }
         {
             auto q0 = q8_t{1.5};
             auto q1 = fixed_point<16>{-1};
-            auto q2 = q0 % q1;
+            auto q2 = q0 % q8_t{q1};
             CHECK(q2 == decltype(q2){0.5});
         }
         {
             auto q0 = q8_t{-1.5};
             auto q1 = fixed_point<0>{1};
-            auto q2 = q0 % q1;
+            auto q2 = q0 % q8_t{q1};
             CHECK(q2 == decltype(q2){-0.5});
         }
         {
             auto q0 = q8_t{-1.5};
             auto q1 = fixed_point<16>{1};
-            auto q2 = q0 % q1;
+            auto q2 = q0 % q8_t{q1};
             CHECK(q2 == decltype(q2){-0.5});
         }
     }

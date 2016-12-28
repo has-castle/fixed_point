@@ -4,11 +4,15 @@ TEST_CASE("Basics", "[types]")
 {
     SECTION("Bit counts")
     {
-        REQUIRE(uf24p8_t::frac_bits::value == 8);
-        REQUIRE(uf24p8_t::int_bits::value == 24);
+        auto f1 = uf24p8_t::frac_bits;
+        REQUIRE(f1 == 8);
+        auto i1 = uf24p8_t::int_bits;
+        REQUIRE(i1 == 24);
 
-        REQUIRE(f15p16_t::frac_bits::value == 16);
-        REQUIRE(f15p16_t::int_bits::value == 15);
+        auto f2 = f15p16_t::frac_bits;
+        REQUIRE(f2 == 16);
+        auto i2 = f15p16_t::int_bits;
+        REQUIRE(i2 == 15);
     }
 
     SECTION("Type checking")
