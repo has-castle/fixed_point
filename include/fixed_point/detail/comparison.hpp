@@ -12,37 +12,37 @@ namespace fixed_point
 // Comparison operators
 // ================================
 
-template <typename Lhs, typename Rhs, typename = std::enable_if<Lhs::frac_bits == Rhs::frac_bits>>
+template <typename Lhs, typename Rhs, typename = typename std::enable_if<Lhs::frac_bits == Rhs::frac_bits>::type>
 constexpr bool operator<(const Lhs &lhs, const Rhs &rhs) noexcept
 {
     return lhs.raw_value() < rhs.raw_value();
 }
 
-template <typename Lhs, typename Rhs, typename = std::enable_if<Lhs::frac_bits == Rhs::frac_bits>>
+template <typename Lhs, typename Rhs, typename = typename std::enable_if<Lhs::frac_bits == Rhs::frac_bits>::type>
 constexpr bool operator>(const Lhs &lhs, const Rhs &rhs) noexcept
 {
     return lhs.raw_value() > rhs.raw_value();
 }
 
-template <typename Lhs, typename Rhs, typename = std::enable_if<Lhs::frac_bits == Rhs::frac_bits>>
+template <typename Lhs, typename Rhs, typename = typename std::enable_if<Lhs::frac_bits == Rhs::frac_bits>::type>
 constexpr bool operator<=(const Lhs &lhs, const Rhs &rhs) noexcept
 {
     return lhs.raw_value() <= rhs.raw_value();
 }
 
-template <typename Lhs, typename Rhs, typename = std::enable_if<Lhs::frac_bits == Rhs::frac_bits>>
+template <typename Lhs, typename Rhs, typename = typename std::enable_if<Lhs::frac_bits == Rhs::frac_bits>::type>
 constexpr bool operator>=(const Lhs &lhs, const Rhs &rhs) noexcept
 {
     return lhs.raw_value() >= rhs.raw_value();
 }
 
-template <typename Lhs, typename Rhs, typename = std::enable_if<Lhs::frac_bits == Rhs::frac_bits>>
+template <typename Lhs, typename Rhs, typename = typename std::enable_if<Lhs::frac_bits == Rhs::frac_bits>::type>
 constexpr bool operator==(const Lhs &lhs, const Rhs &rhs) noexcept
 {
     return lhs.raw_value() == rhs.raw_value();
 }
 
-template <typename Lhs, typename Rhs, typename = std::enable_if<Lhs::frac_bits == Rhs::frac_bits>>
+template <typename Lhs, typename Rhs, typename = typename std::enable_if<Lhs::frac_bits == Rhs::frac_bits>::type>
 constexpr bool operator!=(const Lhs &lhs, const Rhs &rhs) noexcept
 {
     return lhs.raw_value() != rhs.raw_value();
