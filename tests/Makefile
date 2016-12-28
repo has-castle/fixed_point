@@ -5,6 +5,9 @@ dep = $(obj:.o=.d)
 LDFLAGS ?=
 LDFLAGS += -lm
 CXX ?= g++
+ifdef CXX_OVERRIDE
+CXX = $(CXX_OVERRIDE)
+endif
 STD ?= c++11
 CXXFLAGS ?=
 CXXFLAGS += -Wall -Werror -O3
