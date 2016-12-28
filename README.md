@@ -1,5 +1,7 @@
 # Has-castle Fixed point C++ library
 
+![Build status](https://travis-ci.org/has-castle/fixed_point.svg?branch=master)
+
 ## About
 
 This is a C++11 library that is useful when performing fixed-point arithmetic on integer numbers. This library provides type safety, and easy to use methods with no overhead.
