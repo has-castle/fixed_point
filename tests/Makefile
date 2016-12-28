@@ -4,27 +4,27 @@ dep = $(obj:.o=.d)
 
 LDFLAGS ?=
 LDFLAGS += -lm
-CPP ?= g++
+CXX ?= g++
 STD ?= c++11
-CPPFLAGS ?=
-CPPFLAGS += -Wall -Werror -O3
-CPPFLAGS += -std=$(STD)
-CPPFLAGS += -I../include
+CXXFLAGS ?=
+CXXFLAGS += -Wall -Werror -O3
+CXXFLAGS += -std=$(STD)
+CXXFLAGS += -I../include
 EXEC = catch_test
 
 $(EXEC): $(obj)
-	$(CPP) $(CPPFLAGS) -o $@ $^ $(LDFLAGS)
+	$(CXX) $(CXXFLAGS) -o $@ $^ $(LDFLAGS)
 	@echo Building $@ complete.
 
 %.o: %.cpp
-	$(CPP) $(CPPFLAGS) -o $@ -c $<
+	$(CXX) $(CXXFLAGS) -o $@ -c $<
 
 -include $(dep)   # include all dep files in the makefile
 
 # rule to generate a dep file by using the C preprocessor
 # (see man cpp for details on the -MM and -MT options)
 %.d: %.cpp
-	$(CPP) $(CPPFLAGS) $< -MM -MT $(@:.d=.o) >$@
+	$(CXX) $(CXXFLAGS) $< -MM -MT $(@:.d=.o) >$@
 
 .PHONY: clean
 clean:

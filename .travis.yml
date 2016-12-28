@@ -1,0 +1,5 @@
+language: cpp
+script: make test && make test_run
+compiler:
+  - clang
+  - gcc
