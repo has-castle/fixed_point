@@ -195,3 +195,23 @@ TEST_CASE("Multiplicative operators", "[multiplicative][operator_mul][operator_d
         }
     }
 }
+
+TEST_CASE("Shift operators", "[shift][operator_shl][operator_shr]")
+{
+    SECTION("Left shift")
+    {
+        auto q0 = q8_t{1.0};
+        auto q1 = q0 << 1;
+        REQUIRE(q1 == decltype(q1){2.0});
+        q0 <<= 2;
+        REQUIRE(q0 == decltype(q0){4.0});
+    }
+    SECTION("Right shift")
+    {
+        auto q0 = q8_t{1.0};
+        auto q1 = q0 >> 1;
+        REQUIRE(q1 == decltype(q1){0.5});
+        q0 >>= 2;
+        REQUIRE(q0 == decltype(q0){0.25});
+    }
+}
