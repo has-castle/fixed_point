@@ -135,6 +135,45 @@ inline Lhs &operator%=(Lhs &lhs, const Rhs &rhs) noexcept
     return lhs;
 }
 
+// ================================
+// Shift operators
+// ================================
+
+// Shift operators do not change the fractional bit count of the fixed
+// point number. To change
+
+// Shift left
+template <typename Lhs>
+constexpr auto operator<<(const Lhs &lhs, const int &rhs) noexcept
+    -> fixed_point<Lhs::frac_bits, decltype(lhs.raw_value() << rhs)>
+{
+    return {lhs.raw_value() << rhs, 0};
+}
+
+// Shift right
+template <typename Lhs>
+constexpr auto operator>>(const Lhs &lhs, const int &rhs) noexcept
+    -> fixed_point<Lhs::frac_bits, decltype(lhs.raw_value() >> rhs)>
+{
+    return {lhs.raw_value() >> rhs, 0};
+}
+
+// Assignment shift left
+template <typename Lhs>
+inline Lhs &operator<<=(Lhs &lhs, const int &rhs) noexcept
+{
+    lhs.raw_value() <<= rhs;
+    return lhs;
+}
+
+// Assignment shift right
+template <typename Lhs>
+inline Lhs &operator>>=(Lhs &lhs, const int &rhs) noexcept
+{
+    lhs.raw_value() >>= rhs;
+    return lhs;
+}
+
 } // namespace fixed_point
 } // namespace has_castle
 
