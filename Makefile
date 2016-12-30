@@ -4,27 +4,30 @@ dep = $(obj:.o=.d)
 
 LDFLAGS ?=
 LDFLAGS += -lm
-CPP ?= g++
+CXX ?= g++
+ifdef CXX_OVERRIDE
+CXX = $(CXX_OVERRIDE)
+endif
 STD ?= c++11
-CPPFLAGS ?=
-CPPFLAGS += -Wall -Werror -O3 -g
-CPPFLAGS += -std=$(STD)
-CPPFLAGS += -Iinclude
+CXXFLAGS ?=
+CXXFLAGS += -Wall -Werror -O3 -g
+CXXFLAGS += -std=$(STD)
+CXXFLAGS += -Iinclude
 EXEC = fp_demo
 
 $(EXEC): $(obj)
-	$(CPP) $(CPPFLAGS) -o $@ $^ $(LDFLAGS)
+	$(CXX) $(CXXFLAGS) -o $@ $^ $(LDFLAGS)
 	@echo Building $@ complete.
 
 %.o: %.cpp
-	$(CPP) $(CPPFLAGS) -o $@ -c $<
+	$(CXX) $(CXXFLAGS) -o $@ -c $<
 
 -include $(dep)   # include all dep files in the makefile
 
 # rule to generate a dep file by using the C preprocessor
-# (see man cpp for details on the -MM and -MT options)
+# (see man CXX for details on the -MM and -MT options)
 %.d: %.cpp
-	$(CPP) $(CPPFLAGS) $< -MM -MT $(@:.d=.o) >$@
+	$(CXX) $(CXXFLAGS) $< -MM -MT $(@:.d=.o) >$@
 
 .PHONY: clean
 clean:
