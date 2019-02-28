@@ -1,5 +1,5 @@
 language: cpp
-script: make test && make test_run
+script: ./ci_build.sh
 # The below matrix is utilized to use modern compilers.
 # Source: http://genbattle.bitbucket.org/blog/2016/01/17/c++-travis-ci/
 matrix:
@@ -11,7 +11,7 @@ matrix:
             - ubuntu-toolchain-r-test
           packages:
             - g++-4.9
-      env: CXX_OVERRIDE=g++-4.9
+      env: CXX=g++-4.9
     - compiler: gcc
       addons:
         apt:
@@ -19,7 +19,7 @@ matrix:
             - ubuntu-toolchain-r-test
           packages:
             - g++-5
-      env: CXX_OVERRIDE=g++-5
+      env: CXX=g++-5
     - compiler: clang
       addons:
         apt:
@@ -28,7 +28,7 @@ matrix:
             - llvm-toolchain-precise-3.6
           packages:
             - clang-3.6
-      env: CXX_OVERRIDE=clang++-3.6
+      env: CXX=clang++-3.6
     - compiler: clang
       addons:
         apt:
@@ -37,4 +37,4 @@ matrix:
             - llvm-toolchain-precise-3.7
           packages:
             - clang-3.7
-      env: CXX_OVERRIDE=clang++-3.7
+      env: CXX=clang++-3.7

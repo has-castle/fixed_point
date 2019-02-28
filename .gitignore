@@ -1,4 +1,1 @@
-*.d
-*.o
-/fp_demo
-/tests/catch_test
+.build/
