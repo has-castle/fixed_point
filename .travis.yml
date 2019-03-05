@@ -11,7 +11,7 @@ matrix:
             - ubuntu-toolchain-r-test
           packages:
             - g++-4.9
-            - ninja
+            - ninja-build
       env: CXX=g++-4.9
     - compiler: gcc
       addons:
@@ -20,7 +20,7 @@ matrix:
             - ubuntu-toolchain-r-test
           packages:
             - g++-5
-            - ninja
+            - ninja-build
       env: CXX=g++-5
     - compiler: clang
       addons:
@@ -30,7 +30,7 @@ matrix:
             - llvm-toolchain-precise-3.6
           packages:
             - clang-3.6
-            - ninja
+            - ninja-build
       env: CXX=clang++-3.6
     - compiler: clang
       addons:
@@ -40,5 +40,5 @@ matrix:
             - llvm-toolchain-precise-3.7
           packages:
             - clang-3.7
-            - ninja
+            - ninja-build
       env: CXX=clang++-3.7
