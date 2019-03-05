@@ -4,7 +4,7 @@ script: ./ci_build.sh
 # Source: http://genbattle.bitbucket.org/blog/2016/01/17/c++-travis-ci/
 matrix:
   include:
-    - compiler: gcc
+    - compiler: g++-4.9
       addons:
         apt:
           sources:
@@ -12,8 +12,7 @@ matrix:
           packages:
             - g++-4.9
             - ninja-build
-      env: CXX=g++-4.9
-    - compiler: gcc
+    - compiler: g++-5
       addons:
         apt:
           sources:
@@ -21,8 +20,7 @@ matrix:
           packages:
             - g++-5
             - ninja-build
-      env: CXX=g++-5
-    - compiler: clang
+    - compiler: clang++-3.6
       addons:
         apt:
           sources:
@@ -31,8 +29,7 @@ matrix:
           packages:
             - clang-3.6
             - ninja-build
-      env: CXX=clang++-3.6
-    - compiler: clang
+    - compiler: clang++-3.7
       addons:
         apt:
           sources:
@@ -41,4 +38,3 @@ matrix:
           packages:
             - clang-3.7
             - ninja-build
-      env: CXX=clang++-3.7
