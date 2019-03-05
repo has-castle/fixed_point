@@ -1,5 +1,8 @@
 language: cpp
-script: ./ci_build.sh
+script:
+  - export CC=${TRAVIS_COMPILER}
+  - export CXX=${TRAVIS_COMPILER}
+  - ./ci_build.sh
 # The below matrix is utilized to use modern compilers.
 # Source: http://genbattle.bitbucket.org/blog/2016/01/17/c++-travis-ci/
 matrix:
