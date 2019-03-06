@@ -2,7 +2,8 @@ call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary
 cmake --version
 mkdir .build
 cd .build
+rm -rf -- *
 cmake ..
 cmake --build .
-ctest -C test
+ctest
 cd ..
