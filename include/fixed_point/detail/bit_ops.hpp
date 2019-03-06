@@ -15,7 +15,7 @@ namespace fixed_point
 // Bit operators operate on the raw value directly.
 
 // Bit-and
-template <typename Lhs, typename Rhs>
+template <typename Lhs, typename Rhs, typename = typename std::enable_if<is_fixed_point<Lhs>::value && is_fixed_point<Rhs>::value>::type>
 constexpr auto operator&(const Lhs &lhs, const Rhs &rhs) noexcept
     -> fixed_point<Lhs::frac_bits, decltype(lhs.raw_value() & rhs.raw_value())>
 {
@@ -23,7 +23,7 @@ constexpr auto operator&(const Lhs &lhs, const Rhs &rhs) noexcept
 }
 
 // Bit-or
-template <typename Lhs, typename Rhs>
+template <typename Lhs, typename Rhs, typename = typename std::enable_if<is_fixed_point<Lhs>::value && is_fixed_point<Rhs>::value>::type>
 constexpr auto operator|(const Lhs &lhs, const Rhs &rhs) noexcept
     -> fixed_point<Lhs::frac_bits, decltype(lhs.raw_value() | rhs.raw_value())>
 {
@@ -31,7 +31,7 @@ constexpr auto operator|(const Lhs &lhs, const Rhs &rhs) noexcept
 }
 
 // Bit-xor
-template <typename Lhs, typename Rhs>
+template <typename Lhs, typename Rhs, typename = typename std::enable_if<is_fixed_point<Lhs>::value && is_fixed_point<Rhs>::value>::type>
 constexpr auto operator^(const Lhs &lhs, const Rhs &rhs) noexcept
     -> fixed_point<Lhs::frac_bits, decltype(lhs.raw_value() ^ rhs.raw_value())>
 {
@@ -39,7 +39,7 @@ constexpr auto operator^(const Lhs &lhs, const Rhs &rhs) noexcept
 }
 
 // Bit-negate
-template <typename Lhs>
+template <typename Lhs, typename = typename std::enable_if<is_fixed_point<Lhs>::value>::type>
 constexpr auto operator~(const Lhs &lhs) noexcept
     -> fixed_point<Lhs::frac_bits, decltype(~lhs.raw_value())>
 {
@@ -47,7 +47,7 @@ constexpr auto operator~(const Lhs &lhs) noexcept
 }
 
 // Assignment bit-and
-template <typename Lhs, typename Rhs>
+template <typename Lhs, typename Rhs, typename = typename std::enable_if<is_fixed_point<Lhs>::value && is_fixed_point<Rhs>::value>::type>
 inline Lhs &operator&=(Lhs &lhs, const Rhs &rhs) noexcept
 {
     lhs.raw_value() &= rhs.raw_value();
@@ -55,7 +55,7 @@ inline Lhs &operator&=(Lhs &lhs, const Rhs &rhs) noexcept
 }
 
 // Assignment bit-or
-template <typename Lhs, typename Rhs>
+template <typename Lhs, typename Rhs, typename = typename std::enable_if<is_fixed_point<Lhs>::value && is_fixed_point<Rhs>::value>::type>
 inline Lhs &operator|=(Lhs &lhs, const Rhs &rhs) noexcept
 {
     lhs.raw_value() |= rhs.raw_value();
@@ -63,14 +63,14 @@ inline Lhs &operator|=(Lhs &lhs, const Rhs &rhs) noexcept
 }
 
 // Assignment bit-xor
-template <typename Lhs, typename Rhs>
+template <typename Lhs, typename Rhs, typename = typename std::enable_if<is_fixed_point<Lhs>::value && is_fixed_point<Rhs>::value>::type>
 inline Lhs &operator^=(Lhs &lhs, const Rhs &rhs) noexcept
 {
     lhs.raw_value() ^= rhs.raw_value();
     return lhs;
 }
 
-template <typename Lhs>
+template <typename Lhs, typename = typename std::enable_if<is_fixed_point<Lhs>::value>::type>
 inline auto operator!(Lhs& lhs) noexcept
     -> fixed_point<Lhs::frac_bits, decltype(!lhs.raw_value())>
 {

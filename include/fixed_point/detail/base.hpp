@@ -151,6 +151,11 @@ struct fixed_point
 
 }; // struct fixed_point
 
+template <int F, typename T>
+struct is_fixed_point<fixed_point<F, T>> : std::true_type
+{
+};
+
 } // namespace fixed_point
 } // namespace has_castle
 
