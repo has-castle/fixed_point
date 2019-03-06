@@ -27,7 +27,8 @@ struct fixed_point
 
     static constexpr value_type frac_mask() noexcept
     {
-        return frac_bits <= 0 ? 0 : int_bits <= 0 ? ~0 : ((1 << (frac_bits)) - 1);
+        using ULL = unsigned long long;
+		return frac_bits <= 0 ? 0 : int_bits <= 0 ? ~0ULL : (1ULL << ULL(frac_bits >= 0 ? frac_bits : 0)) - 1ULL;
     }
 
   public:

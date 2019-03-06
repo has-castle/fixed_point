@@ -23,11 +23,19 @@ struct uses_arithmetic_shift : std::integral_constant<bool, builtin_shr(T(-1), 1
 };
 
 template <typename T = int>
-constexpr T shift_by_portable(T value, int amount) noexcept
+constexpr T shift_by_portable(T value, typename std::enable_if<std::is_signed<T>::value, int>::type amount) noexcept
 {
     // Note shifting by a negative value or shifting a negative value is
     // undefined. We avoid this here.
     return value < 0 ? amount < 0 ? ~(~value >> -amount) : -(-value << amount) : amount < 0 ? value >> -amount : value << amount;
+}
+
+template <typename T = unsigned>
+constexpr T shift_by_portable(T value, typename std::enable_if<std::is_unsigned<T>::value, int>::type amount) noexcept
+{
+	// Note shifting by a negative value or shifting a negative value is
+	// undefined. We avoid this here.
+	return amount < 0 ? value >> -amount : value << amount;
 }
 
 template <typename T = int>
@@ -58,6 +66,9 @@ template <typename T>
 struct is_fixed_point : std::false_type
 {
 };
+
+// template <typename T>
+// static inline const bool is_fixed_point_v = is_fixed_point<T>::value;
 
 } // namespace fixed_point
 } // namespace has_castle
