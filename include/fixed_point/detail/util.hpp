@@ -53,6 +53,12 @@ static constexpr T div_by_exp(T value, int exp) noexcept
 }
 
 } // namespace detail
+
+template <typename T>
+struct is_fixed_point : std::false_type
+{
+};
+
 } // namespace fixed_point
 } // namespace has_castle
 
