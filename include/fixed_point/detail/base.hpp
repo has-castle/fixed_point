@@ -17,8 +17,6 @@ struct fixed_point
 {
     // The underlying value type of the fixed_point number
     using value_type = T;
-    // The type of the entire fixed_point structure.
-    using this_type = fixed_point<F, T>;
     // Check validity of template parameters.
     static_assert(std::is_integral<value_type>::value, "T must be integral type.");
 
